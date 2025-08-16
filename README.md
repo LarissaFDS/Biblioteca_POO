@@ -1,29 +1,29 @@
 # Biblioteca_POO
 
 ## Library Management System
-• Catalog Search: Users can search the library catalog by title, author, genre, etc;
-• Borrow and Return: Users can check out and return books;
-• Reservation System: Users can reserve books that are currently on loan;
-• Overdue Notifications: Automated notifications for overdue items;
-• Member Management: Registration and management of library members;
-• Fine Calculation and Payment: Calculation and payment of overdue fines;
-• Inventory Management: Tracking and management of library inventory;
-• Event Management: Scheduling and promoting library events;
-• E-books and Online Resources: Access to digital resources and e-books;
-• Reporting and Analytics: Generating reports on library usage and trends.
+* Catalog Search: Users can search the library catalog by title, author, genre, etc;
+* Borrow and Return: Users can check out and return books;
+* Reservation System: Users can reserve books that are currently on loan;
+* Overdue Notifications: Automated notifications for overdue items;
+* Member Management: Registration and management of library members;
+* Fine Calculation and Payment: Calculation and payment of overdue fines;
+* Inventory Management: Tracking and management of library inventory;
+* Event Management: Scheduling and promoting library events;
+* E-books and Online Resources: Access to digital resources and e-books;
+* Reporting and Analytics: Generating reports on library usage and trends.
                          
                         Português
 
-### -Busca no Catálogo: Os usuários podem pesquisar o catálogo da biblioteca por título, autor, gênero, etc.    
-### -Empréstimo e Devolução: Os usuários podem retirar e devolver livros.                                       
-### -Sistema de Reserva: Os usuários podem reservar livros que estão atualmente emprestados.                    
-### -Notificações de Atraso: Notificações automáticas para itens em atraso.                                  
-### -Gerenciamento de Membros: Cadastro e gerenciamento dos membros da biblioteca.                             
-### -Cálculo e Pagamento de Multas: Cálculo e pagamento de multas por atraso.                                  
-### -Gerenciamento de Acervo: Acompanhamento e gerenciamento do acervo da biblioteca.                         
-### -Gerenciamento de Eventos: Agendamento e divulgação de eventos da biblioteca.                               
-### -E-books e Recursos Online: Acesso a recursos digitais e e-books.
-### -Relatórios e Análises: Geração de relatórios sobre o uso e as tendências da biblioteca.
+* Busca no Catálogo: Os usuários podem pesquisar o catálogo da biblioteca por título, autor, gênero, etc.    
+* Empréstimo e Devolução: Os usuários podem retirar e devolver livros.                                       
+* Sistema de Reserva: Os usuários podem reservar livros que estão atualmente emprestados.                    
+* Notificações de Atraso: Notificações automáticas para itens em atraso.                                  
+* Gerenciamento de Membros: Cadastro e gerenciamento dos membros da biblioteca.                             
+* Cálculo e Pagamento de Multas: Cálculo e pagamento de multas por atraso.                                  
+* Gerenciamento de Acervo: Acompanhamento e gerenciamento do acervo da biblioteca.                         
+* Gerenciamento de Eventos: Agendamento e divulgação de eventos da biblioteca.                               
+* E-books e Recursos Online: Acesso a recursos digitais e e-books.
+* Relatórios e Análises: Geração de relatórios sobre o uso e as tendências da biblioteca.
 
 
 # Classes
@@ -38,10 +38,10 @@
     * **total_exemplares:** Quantidade total de cópias do item.
     * **exemplares_disponiveis:** Quantidade de cópias atualmente disponíveis para empréstimo.
 
-* **Métodos:
+* **Métodos:**
     * **verificar_disponibilidade():** Retorna True se houver exemplares disponíveis.
     * **emprestar():** Decrementa o número de exemplares disponíveis se o item estiver disponível.
-   * ** devolver():** Incrementa o número de exemplares disponíveis.
+    * **devolver():** Incrementa o número de exemplares disponíveis.
 
 ### Subclasses de Item
     Livro: Herda de Item.
@@ -79,7 +79,7 @@ Observação: Métodos como emprestar() e verificar_disponibilidade() são sobre
 ## Evento
     Representa um evento organizado pela biblioteca.
 
-* **Atributos:
+* **Atributos:**
     * **nome:** Nome do evento.
     * **descricao:** Breve descrição sobre o evento.
     * **data:** Data do evento (formato dd/mm/yyyy).
