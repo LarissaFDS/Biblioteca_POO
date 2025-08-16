@@ -11,6 +11,9 @@
 ## Eventos
    [] - Local não pode estar em branco
 
+## Ebook
+   [] - Colocar opção para cadastrar novos ebook
+
 # MEMBRO
 ## Evento
    [x] - Colocar maximo 5 eventos quando for listar

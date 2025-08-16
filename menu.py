@@ -157,8 +157,7 @@ def menu_gerenciar_catalogo(biblioteca):
                 print("Nenhum item cadastrado.")
             else:
                 for item in itens:
-                    print(item)
-                    print("-" * 25)
+                    print(item.info_basica())
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '4':
@@ -171,8 +170,7 @@ def menu_gerenciar_catalogo(biblioteca):
                 else:
                     print("\n--- Resultados da busca ---")
                     for item in resultados:
-                        print(item)
-                        print("-" * 25)
+                        print(item.info_basica())
             else:
                 print("Critério de busca inválido.")
             input("\nPressione ENTER para continuar...")
@@ -375,8 +373,7 @@ def menu_membro(biblioteca, membro):
                 else:
                     print("\n--- Resultados da busca ---")
                     for item in resultados:
-                        print(item)
-                        print("-" * 25)
+                        print(item.info_basica())
             else:
                 print("Critério de busca inválido.")
             input("\nPressione ENTER para continuar...")
