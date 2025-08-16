@@ -356,6 +356,7 @@ def menu_membro(biblioteca, membro):
     while True:
         limpar_tela()
         print(f"\n--- 🤗 Menu do membro: {membro.nome} ---")
+        print(f"Data atual do sistema: {biblioteca.get_data_atual().strftime('%d/%m/%Y')}")
         print("1. Buscar item no acervo")
         print("2. Meus empréstimos e devoluções")
         print("3. Minhas multas pendentes")
@@ -413,6 +414,15 @@ def menu_membro(biblioteca, membro):
                 for multa in multas_pendentes:
                     print(multa)
                     print("-" * 25)
+                resposta = input("Deseja pagar todas as multas? (sim/não): ").lower()
+                if resposta == 'sim':
+                    for m in multas_pendentes:
+                        m.pagar()
+                    print("\n✔ Multas pagas com sucesso.")
+                    time.sleep(1.5)
+                else:
+                    print("\n❌ Pagamento não efetuado.")
+                    time.sleep(1.5)             
             input("\nPressione ENTER para continuar...")
                     
         elif escolha == '4':

@@ -20,7 +20,6 @@ item_padrao = [
     ("livro", "Os Cem Anos de Lenni e Margot", "Marianne Cronin", "Intrínseca", "Romance", 7, None, None),
     ("livro", "Cemitério de Dragões", "Rafael Draccon", "Leya", "Fantasia", 5, None, None),
     ("livro", "É assim que se perde a guerra do tempo", "Amal El-Mohtar e Max Gladstone", "Mor", "Ficção Científica", 3, None, None),
-    
 
     # ------------------ REVISTAS ------------------
     ("revista", "Revista Superinteressante", "Editora Abril", "Superinteressante", "Ciência e Tecnologia", 10, "Julho/2025", None),

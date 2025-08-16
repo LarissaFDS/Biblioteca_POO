@@ -186,7 +186,7 @@ class Biblioteca:
             return False, f"❗️ Evento '{nome_evento}' não encontrado."
     
     def listar_eventos(self) -> list:
-        return self.eventos
+        return self.eventos[:5]
 
     # ------------------------------- Verificar atrasos da biblioteca -------------------------------
     def verificar_atrasos(self) -> list[str]:
