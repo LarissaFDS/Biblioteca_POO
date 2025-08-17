@@ -3,6 +3,7 @@ import time
 import os
 from classes import Ebook
 
+#Define a senha de acesso para a área administrativa.
 SENHA_ADMIN = "admin123"
 
 def limpar_tela():
@@ -10,6 +11,7 @@ def limpar_tela():
 
 #------------------------------- MENU PRINCIPAL ------------------------------------------
 def menu_principal(biblioteca):
+    #Exibe o menu principal e direciona o usuário com base na sua escolha.
     while True:
         time.sleep(2)
         limpar_tela()
@@ -21,6 +23,7 @@ def menu_principal(biblioteca):
         escolha = input("Escolha uma opção: ")
 
         if escolha == '1':
+            #Valida a senha do administrador antes de dar acesso.
             senha = input("Digite a senha de administrador: ")
             if senha == SENHA_ADMIN:
                 print("\n✔ Login de administrador bem-sucedido!")
@@ -28,9 +31,10 @@ def menu_principal(biblioteca):
                 menu_administrador(biblioteca)
             else:
                 print("❗️ Senha incorreta.")
-                time.sleep(1.5)
+                time.sleep(0.5)
                 
         elif escolha == '2':
+            #Valida o e-mail do membro para login.
             email = input("Digite seu e-mail para login: ")
             membro = biblioteca.buscar_membro_por_email(email)
             if membro:
@@ -39,25 +43,27 @@ def menu_principal(biblioteca):
                 menu_membro(biblioteca, membro)
             else:
                 print("❗️ Membro não encontrado com este e-mail.")
-                time.sleep(1.5)
+                time.sleep(0.5)
                 
         elif escolha == '3':
+            #Chama a função de cadastro de membro.
             menu_cadastrar_membro(biblioteca)
         elif escolha == '4':
+            #Encerra o programa.
             print("Saindo do sistema...")
             time.sleep(1)
             print("Até logo!")
             sys.exit(0)
         else:
             print("❗️ Opção inválida.")
-            time.sleep(1.5)
+            time.sleep(0.5)
             
 #------------------------------------------------- MENU e SUBMENU ADMINISTRADOR --------------------------------------------------
 def menu_administrador(biblioteca):
     while True:
         limpar_tela()
         print("\n--- 👑 Menu do administrador ---")
-        print(f"Data atual do sistema: {biblioteca.get_data_atual().strftime('%d/%m/%Y')}")
+        print(f"Data atual do sistema: {biblioteca.data_atual.strftime('%d/%m/%Y')}")
         print("1. Gerenciar acervo")
         print("2. Gerenciar membros")
         print("3. Gerenciar eventos")
@@ -74,6 +80,7 @@ def menu_administrador(biblioteca):
             menu_gerenciar_eventos(biblioteca)
                  
         elif escolha == '4':
+            #Permite simular a passagem do tempo e verificar atrasos automaticamente.
             try:
                 dias = int(input("Quantos dias você deseja avançar no tempo? "))
                 mensagens = biblioteca.avancar_no_tempo(dias)
@@ -86,11 +93,13 @@ def menu_administrador(biblioteca):
                 time.sleep(1.5)
                 
         elif escolha == '5':
+            #Gera e exibe um relatório de uso da biblioteca.
             relatorio = biblioteca.relatorio_uso()
             exibir_relatorio(relatorio)
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '6':
+            #Retorna ao menu principal.
             print("Fazendo logout de administrador...")
             time.sleep(1)
             break
@@ -104,7 +113,7 @@ def menu_gerenciar_itens(biblioteca):
     while True:
         limpar_tela()
         print("\n--- 📦 Gerenciamento de acervo (Admin) ---")
-        print("1. Gerenciar catálogo de livros/revistas")
+        print("1. Gerenciar catálogo da biblioteca")
         print("2. Gerenciar circulação")
         print("3. Voltar")
         escolha = input("Escolha uma opção: ")
@@ -120,18 +129,21 @@ def menu_gerenciar_itens(biblioteca):
             time.sleep(1.5)
 
 def menu_gerenciar_catalogo(biblioteca):
+    #Submenu para cadastrar, listar e buscar itens no catálogo.
     while True:
         limpar_tela()
         print("\n--- 📚 Gerenciamento de catálogo ---")
         print("1. Cadastrar novo livro")
         print("2. Cadastrar nova revista")
-        print("3. Listar todos os itens")
-        print("4. Buscar item")
-        print("5. Voltar")
+        print("3. Cadastrar novo Ebook")
+        print("4. Listar todos os itens")
+        print("5. Buscar item")
+        print("6. Voltar")
         escolha = input("Escolha uma opção: ")
 
-        if escolha in ('1', '2'):
-            tipo = "livro" if escolha == '1' else "revista"
+        if escolha in ('1', '2', '3'):
+            #Coleta dados comuns a todos os tipos de itens.
+            tipo = "livro" if escolha == '1' else ("revista" if escolha == '2' else "ebook")
             titulo = input("Título: ")
             autor = input("Autor/Editor: ")
             editora = input("Editora: ")
@@ -139,20 +151,26 @@ def menu_gerenciar_catalogo(biblioteca):
             try:
                 total_exemplares = int(input("Total de exemplares: "))
                 kwargs = {}
+                #Coleta dados específicos para cada tipo de item.
                 if tipo == 'livro':
                     kwargs['isbn'] = input("ISBN (opcional): ")
-                else:
+                elif tipo == 'revista':
                     kwargs['edicao'] = input("Edição (opcional): ")
+                else:
+                    kwargs['link_download'] = input("Link para download: ")
+                    kwargs['formato'] = input("Formato do ebook: ")
                 
+                #Chama o método de cadastro da biblioteca.
                 sucesso, msg, _ = biblioteca.cadastrar_item(titulo, autor, editora, genero, total_exemplares, tipo=tipo, **kwargs)
                 print(msg)
             except ValueError:
                 print("❗️ Número de exemplares deve ser um número inteiro.")
             time.sleep(1.5)
             
-        elif escolha == '3':
+        elif escolha == '4':
+            #Lista as informações básicas de todos os itens do acervo.
             print("\n--- 📚 Lista de itens no acervo ---")
-            itens = biblioteca.item
+            itens = biblioteca.listar_itens()
             if not itens:
                 print("Nenhum item cadastrado.")
             else:
@@ -160,7 +178,8 @@ def menu_gerenciar_catalogo(biblioteca):
                     print(item.info_basica())
             input("\nPressione ENTER para continuar...")
             
-        elif escolha == '4':
+        elif escolha == '5':
+            #Busca itens por um critério específico (título, autor, etc.).
             criterio = input("Buscar por (titulo\\autor\editora\genero): ").lower().strip()
             if criterio in ['titulo', 'autor', 'editora', 'genero']:
                 valor = input(f"Digite o {criterio} que deseja buscar: ")
@@ -175,13 +194,14 @@ def menu_gerenciar_catalogo(biblioteca):
                 print("Critério de busca inválido.")
             input("\nPressione ENTER para continuar...")
             
-        elif escolha == '5':
+        elif escolha == '6':
             break
         else:
             print("Opção inválida.")
             time.sleep(1.5)
 
 def menu_gerenciar_circulacao(biblioteca):
+    #Submenu para gerenciar empréstimos, devoluções e reservas.
     while True:
         limpar_tela()
         print("\n--- 🔄 Gerenciamento de circulação ---")
@@ -195,6 +215,7 @@ def menu_gerenciar_circulacao(biblioteca):
             email = input("Email do membro: ")
             titulo = input("Título do item: ")
             sucesso, msg, _ = biblioteca.realizar_emprestimo(email, titulo)
+            #Se o item estiver indisponível, oferece a opção de reserva.
             if not sucesso and msg == "ITEM_INDISPONIVEL":
                 print(f"❗️ Item '{titulo}' não está disponível para empréstimo no momento.")
                 opcao = input("Deseja reservar o item para retirada posterior? (sim/não): ").strip().lower()
@@ -214,6 +235,7 @@ def menu_gerenciar_circulacao(biblioteca):
             if not membro:
                print(f"❗️ Membro com email {email} não encontrado.")
             else:
+               #Verifica se há multas pendentes antes de permitir a devolução.
                multas_pendentes = biblioteca.listar_multas_do_membro(membro)
                pagamento_ok = True
                if multas_pendentes:
@@ -226,6 +248,7 @@ def menu_gerenciar_circulacao(biblioteca):
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '3':
+            #Lista todas as reservas ativas no sistema.
             reservas = biblioteca.listar_reservas()
             if not reservas:
                 print("Nenhuma reserva de livro ativa no momento.")
@@ -243,6 +266,7 @@ def menu_gerenciar_circulacao(biblioteca):
             time.sleep(1.5)
 
 def menu_gerenciar_membros(biblioteca):
+    #Submenu para cadastrar, listar membros e visualizar multas.
     while True:
         limpar_tela()
         print("\n--- 👤 Gerenciamento de membros (Admin) ---")
@@ -256,8 +280,9 @@ def menu_gerenciar_membros(biblioteca):
             menu_cadastrar_membro(biblioteca)
             
         elif escolha == '2':
+            #Lista todos os membros cadastrados no sistema.
             print("\n--- 👥 Lista de membros ---")
-            membros = biblioteca.membros
+            membros = biblioteca.listar_membros()
             if not membros:
                 print("Nenhum membro cadastrado.")
             else:
@@ -276,7 +301,7 @@ def menu_gerenciar_membros(biblioteca):
             
 def menu_gerenciar_multas(biblioteca):
     print("\n--- 💰 Todas as multas do sistema ---")
-    multas = biblioteca.multas
+    multas = biblioteca.listar_multas()
     if not multas:
         print("Nenhuma multa registrada no sistema.")
     else:
@@ -296,6 +321,7 @@ def menu_gerenciar_eventos(biblioteca):
         escolha = input("Escolha uma opção: ")
 
         if escolha == '1':
+            #Coleta os dados e agenda um novo evento.
             nome = input("Nome: ")
             descricao = input("Descrição: ")
             data = input("Data (DD/MM/AAAA): ")
@@ -305,6 +331,7 @@ def menu_gerenciar_eventos(biblioteca):
             time.sleep(1.5)
             
         elif escolha == '2':
+            #Exibe os próximos eventos agendados.
             eventos_para_divulgar = biblioteca.divulgar_eventos()
             if not eventos_para_divulgar:
                 print("Nenhum evento agendado para divulgar.")
@@ -318,6 +345,7 @@ def menu_gerenciar_eventos(biblioteca):
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '3':
+            #Cancela um evento com base no nome.
             nome_evento = input("Digite o nome do evento a ser cancelado: ")
             sucesso, msg = biblioteca.cancelar_evento(nome_evento)
             print(msg)
@@ -351,10 +379,11 @@ def menu_cadastrar_membro(biblioteca):
 
 #-------------------------------- MENU MEMBRO ------------------------------------------  
 def menu_membro(biblioteca, membro):
+    #Exibe o menu de opções para um membro logado.
     while True:
         limpar_tela()
         print(f"\n--- 🤗 Menu do membro: {membro.nome} ---")
-        print(f"Data atual do sistema: {biblioteca.get_data_atual().strftime('%d/%m/%Y')}")
+        print(f"Data atual do sistema: {biblioteca.data_atual.strftime('%d/%m/%Y')}")
         print("1. Buscar item no acervo")
         print("2. Meus empréstimos e devoluções")
         print("3. Minhas multas pendentes")
@@ -364,6 +393,7 @@ def menu_membro(biblioteca, membro):
         escolha = input("Escolha uma opção: ")
 
         if escolha == '1':
+            #Permite que o membro busque itens no acervo.
             criterio = input("Buscar por (titulo\\autor\editora\genero): ").lower().strip()
             if criterio in ['titulo', 'autor', 'editora', 'genero']:
                 valor = input(f"Digite o {criterio} que deseja buscar: ")
@@ -379,6 +409,7 @@ def menu_membro(biblioteca, membro):
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '2':
+            #Exibe os empréstimos ativos do membro e oferece a opção de devolução.
             print("\n--- Meus empréstimos ativos ---")
             emprestimos_ativos = biblioteca.listar_emprestimos_do_membro(membro)
             if not emprestimos_ativos:
@@ -391,6 +422,7 @@ def menu_membro(biblioteca, membro):
                 devolver = input("\nDeseja devolver um item? (sim/não): ").lower()
                 if devolver == 'sim':
                     titulo_item = input("Digite o título do item para devolver: ")
+                    #Verifica multas antes de permitir a devolução.
                     multas_pendentes = biblioteca.listar_multas_do_membro(membro)
                     pagamento_ok = True
                     if multas_pendentes:
@@ -403,6 +435,7 @@ def menu_membro(biblioteca, membro):
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '3':
+            #Exibe as multas pendentes do membro e oferece a opção de pagamento.
             print("\n--- Minhas multas pendentes ---")
             multas_pendentes = biblioteca.listar_multas_do_membro(membro)
             if not multas_pendentes:
@@ -423,6 +456,7 @@ def menu_membro(biblioteca, membro):
             input("\nPressione ENTER para continuar...")
                     
         elif escolha == '4':
+            #Lista os ebooks disponíveis e fornece o link de acesso.
             print("\n--- 📖 Ebooks cadastrados ---")
             ebooks = [i for i in biblioteca.item if isinstance(i, Ebook)]
             if not ebooks:
@@ -443,6 +477,7 @@ def menu_membro(biblioteca, membro):
             input("\nPressione ENTER para continuar...")
 
         elif escolha == '5':
+            #Exibe os próximos eventos da biblioteca.
             eventos = biblioteca.listar_eventos()
             if not eventos:
                 print("Nenhum evento agendado no momento.")
@@ -454,6 +489,7 @@ def menu_membro(biblioteca, membro):
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '6':
+            #Faz logout e retorna ao menu principal.
             print("Fazendo logout...")
             time.sleep(1)
             break
@@ -507,9 +543,12 @@ def exibir_relatorio(relatorio):
     print("\n" + "="*30)
     print("Relatório gerado com sucesso!")
     print("="*30)
+    
+    
+    
 
 def pagamento_multas(biblioteca, membro):
-    """Exibe as multas pendentes e processa o pagamento."""
+    #Função auxiliar para exibir e processar o pagamento de multas de um membro.
     multas_pendentes = biblioteca.listar_multas_do_membro(membro)
     
     print("\n--- 💰 Multas pendentes ---")
@@ -526,8 +565,8 @@ def pagamento_multas(biblioteca, membro):
             m.pagar()
         print("\n✔ Multas pagas com sucesso.")
         time.sleep(1.5)
-        return True
+        return True #Retorna True se o pagamento foi efetuado.
     else:
         print("\n❌ Pagamento não efetuado. A devolução não pode ser concluída.")
         time.sleep(1.5)
-        return False
+        return False #Retorna False se o pagamento foi recusado.

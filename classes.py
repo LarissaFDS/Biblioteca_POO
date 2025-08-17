@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+
 from datetime import datetime
 
-# ------------------ CLASSE ABSTRATA ------------------
+#------------------ CLASSE ABSTRATA ------------------
 class Item(ABC):
     def __init__(self, titulo: str, autor: str, editora: str, genero: str, total_exemplares: int) -> None:
         self._titulo = titulo
@@ -9,7 +10,7 @@ class Item(ABC):
         self._editora = editora
         self._genero = genero
         self._total_exemplares = total_exemplares
-        self._exemplares_disponiveis = total_exemplares
+        self._exemplares_disponiveis = total_exemplares #Começa com todos os exemplares disponíveis.
 
     @property
     def titulo(self):
@@ -39,12 +40,14 @@ class Item(ABC):
         return self._exemplares_disponiveis > 0
 
     def emprestar(self) -> bool:
+        #Decrementa o número de exemplares disponíveis se houver algum.
         if self.verificar_disponibilidade():
             self._exemplares_disponiveis -= 1
             return True
         return False
 
     def devolver(self) -> None:
+        #Incrementa o número de exemplares disponíveis ao receber uma devolução.
         if self._exemplares_disponiveis < self._total_exemplares:
             self._exemplares_disponiveis += 1
         else:
@@ -52,14 +55,16 @@ class Item(ABC):
 
     @abstractmethod
     def __str__(self) -> str:
+        #Método abstrato para forçar subclasses a implementar uma representação em string.
         pass
 
     @abstractmethod
     def info_basica(self) -> str:
+        #Método abstrato para uma informação básica e rápida do item.
         pass
 
 
-# ------------------ SUBCLASSES ------------------
+#------------------ SUBCLASSES ------------------
 class Livro(Item):
     def __init__(self, titulo, autor, editora, genero, total_exemplares, isbn=None) -> None:
         super().__init__(titulo, autor, editora, genero, total_exemplares)
@@ -105,12 +110,15 @@ class Ebook(Item):
         self._link_download = link_download
 
     def verificar_disponibilidade(self) -> bool:
+        #Sobrescreve o método original; ebooks estão sempre disponíveis.
         return True
 
     def emprestar(self) -> bool:
+        #Sobrescreve o método original; emprestar um ebook não altera a disponibilidade.
         return True
 
     def devolver(self) -> None:
+        #Sobrescreve o método original; a devolução de um ebook não é necessária.
         pass
     
     @property 
@@ -127,12 +135,12 @@ class Ebook(Item):
         return f"💻 {self.titulo} [{self._formato}]"
 
 
-# ------------------ OUTRAS CLASSES ------------------
+#------------------ OUTRAS CLASSES ------------------
 class Membro:
     def __init__(self, nome: str, endereco: str, email: str) -> None:
         self._nome = nome
         self._endereco = endereco
-        self.email = email
+        self.email = email #Utiliza o setter para validação
 
     @property
     def nome(self):
@@ -148,6 +156,7 @@ class Membro:
     
     @email.setter
     def email(self, novo_email: str):
+        #Define o email do membro, com validação de formato.
         if not novo_email.endswith("@email.com"):
             raise ValueError("O email deve terminar com @email.com")
         self._email = novo_email
@@ -195,7 +204,7 @@ class Evento:
     def __init__(self, nome, descricao, data, local) -> None:
         self._nome = nome
         self._descricao = descricao
-        self.data = data
+        self.data = data #Utiliza o setter para validação
         self._local = local
 
     @property
@@ -208,6 +217,7 @@ class Evento:
 
     @data.setter
     def data(self, nova_data: str):
+        #Define a data do evento, validando o formato (dd/mm/yyyy).
         try:
             datetime.strptime(nova_data, '%d/%m/%Y')
             self._data = nova_data
@@ -228,20 +238,22 @@ class Reserva:
         self._livro = livro
         self._membro = membro
         self._data_reserva = data_reserva
-        self._status = "pendente"
+        self._status = "pendente" #Status pode ser 'pendente', 'confirmada' ou 'cancelada'.
         
     @property
     def livro(self):
         return self._livro
+    
+    @property
+    def membro(self):
+        return self._membro
 
     def confirmar_reserva(self):
         self._status = "confirmada"
-        #print(f"✔ Reserva confirmada para {self._membro.nome} - Livro: {self._livro.titulo}")
 
     def cancelar_reserva(self):
         self._status = "cancelada"
-        ##print(f"Reserva cancelada para {self._membro.nome} - Livro: {self._livro.titulo}")
-
+        
     def __str__(self):
         return (
             f"  - Reserva de {self._livro.info_basica()} por {self._membro.nome}:\n"
@@ -254,7 +266,7 @@ class Multa:
     def __init__(self, emprestimo_atrasado: Emprestimo, valor: float) -> None:
         self._emprestimo_atrasado = emprestimo_atrasado
         self._valor = valor
-        self._pago = False
+        self._pago = False #A multa começa como não paga.
 
     @property
     def valor(self):
@@ -262,6 +274,7 @@ class Multa:
     
     @valor.setter
     def valor(self, novo_valor: float):
+        #Define o valor da multa, garantindo que não seja negativo.
         if novo_valor < 0:
             raise ValueError("O valor da multa não pode ser negativo.")
         self._valor = novo_valor

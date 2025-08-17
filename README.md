@@ -12,8 +12,7 @@
 * E-books and Online Resources: Access to digital resources and e-books;
 * Reporting and Analytics: Generating reports on library usage and trends.
                          
-                        Português
-
+## Português    
 * Busca no Catálogo: Os usuários podem pesquisar o catálogo da biblioteca por título, autor, gênero, etc.    
 * Empréstimo e Devolução: Os usuários podem retirar e devolver livros.                                       
 * Sistema de Reserva: Os usuários podem reservar livros que estão atualmente emprestados.                    
