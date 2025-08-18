@@ -180,7 +180,7 @@ def menu_gerenciar_catalogo(biblioteca):
             
         elif escolha == '5':
             #Busca itens por um critério específico (título, autor, etc.).
-            criterio = input("Buscar por (titulo\\autor\editora\genero): ").lower().strip()
+            criterio = input("Escolha o critério que deseja buscar (titulo\\autor\editora\genero): ").lower().strip()
             if criterio in ['titulo', 'autor', 'editora', 'genero']:
                 valor = input(f"Digite o {criterio} que deseja buscar: ")
                 resultados = biblioteca.buscar_item(criterio, valor)

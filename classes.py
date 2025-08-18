@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 
 from datetime import datetime
 
+VALOR_MULTA = 0.5
+
 #------------------ CLASSE ABSTRATA ------------------
 class Item(ABC):
     def __init__(self, titulo: str, autor: str, editora: str, genero: str, total_exemplares: int) -> None:
@@ -267,17 +269,11 @@ class Multa:
         self._emprestimo_atrasado = emprestimo_atrasado
         self._valor = valor
         self._pago = False #A multa começa como não paga.
+        self. _dias_atraso = 0
 
     @property
     def valor(self):
         return self._valor
-    
-    @valor.setter
-    def valor(self, novo_valor: float):
-        #Define o valor da multa, garantindo que não seja negativo.
-        if novo_valor < 0:
-            raise ValueError("O valor da multa não pode ser negativo.")
-        self._valor = novo_valor
 
     @property
     def pago(self):
@@ -286,12 +282,27 @@ class Multa:
     @property
     def emprestimo_atrasado(self):
         return self._emprestimo_atrasado
+    
+    @property
+    def dias_atraso(self):
+        return self._dias_atraso
 
     def pagar(self) -> bool:
         if not self._pago:
             self._pago = True
             return True
         return False
+    
+    def atualizar_valor(self, data_atual: datetime):
+        #Calcula os dias de atraso e atualiza o valor da multa.
+        dias = (data_atual - self.emprestimo_atrasado.data_devolucao_prevista).days
+        
+        if dias > 0:
+            self._dias_atraso = dias
+            self._valor = self._dias_atraso * VALOR_MULTA
+        else:
+            self._dias_atraso = 0
+            self._valor = 0
 
     def __str__(self) -> str:
         status_multa = "Paga" if self._pago else "Pendente"

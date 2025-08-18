@@ -5,8 +5,7 @@ from collections import Counter
 from classes import Evento, Multa, Ebook, Reserva, Membro, Emprestimo, Livro, Revista
 
 DIAS_EMPRESTIMO = 14 
-MAXIMO_EMPRESTIMO_MEMBRO = 3 
-VALOR_MULTA = 0.5  
+MAXIMO_EMPRESTIMO_MEMBRO = 3   
     
 class Biblioteca:
     def __init__(self) -> None:
@@ -255,26 +254,22 @@ class Biblioteca:
 
         mensagens.append("\n--- Verificação de atrasos e geração de multas ---")
         for emprestimo in atrasados:
-            dias_atraso = (hoje - emprestimo.data_devolucao_prevista).days
-            if dias_atraso > 0:
-                valor_multa = dias_atraso * VALOR_MULTA
-                #Verifica se já existe uma multa para este empréstimo.
-                multa_existente = next((m for m in self._multas if m.emprestimo_atrasado == emprestimo), None)
-                if not multa_existente:
-                    #Se não houver multa, cria uma nova.
-                    nova_multa = Multa(emprestimo, valor_multa)
-                    self._multas.append(nova_multa)
-                    mensagens.append(
-                        f"🔴 Multa GERADA para '{emprestimo.membro.nome}' pelo atraso de '{emprestimo.livro.titulo}'.\n"
-                        f"   - Valor: R$ {valor_multa:.2f} ({dias_atraso} dias de atraso)."
-                    )
-                else:
-                    #Se já existir, atualiza o valor da multa.
-                    multa_existente.valor = valor_multa
-                    mensagens.append(
-                        f"🟡 Multa ATUALIZADA para '{emprestimo.membro.nome}' pelo atraso de '{emprestimo.livro.titulo}'.\n"
-                        f"   - Novo Valor: R$ {valor_multa:.2f} ({dias_atraso} dias de atraso)."
-                    )
+            multa_existente = next((m for m in self._multas if m.emprestimo_atrasado == emprestimo), None)
+
+            if not multa_existente:
+                nova_multa = Multa(emprestimo, 0)
+                nova_multa.atualizar_valor(hoje)
+                self._multas.append(nova_multa)
+                mensagens.append(
+                    f"🔴 Multa GERADA para '{emprestimo.membro.nome}' pelo atraso de '{emprestimo.livro.titulo}'.\n"
+                    f"   - Valor: R$ {nova_multa.valor:.2f} ({nova_multa.dias_atraso} dias de atraso)."
+                )
+            else:
+                multa_existente.atualizar_valor(hoje) #Atualiza valor e dias de atraso
+                mensagens.append(
+                    f"🟡 Multa ATUALIZADA para '{emprestimo.membro.nome}' pelo atraso de '{emprestimo.livro.titulo}'.\n"
+                    f"   - Novo Valor: R$ {multa_existente.valor:.2f} ({multa_existente.dias_atraso} dias de atraso)."
+                )
         return mensagens
 
 
