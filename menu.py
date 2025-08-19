@@ -411,7 +411,7 @@ def menu_membro(biblioteca, membro):
         elif escolha == '2':
             #Exibe os empréstimos ativos do membro e oferece a opção de devolução.
             print("\n--- Meus empréstimos ativos ---")
-            emprestimos_ativos = biblioteca.listar_emprestimos_do_membro(membro)
+            emprestimos_ativos = biblioteca.operacoes.listar_emprestimos_do_membro(membro)
             if not emprestimos_ativos:
                 print("Você não possui empréstimos ativos.")
             else:
@@ -458,7 +458,7 @@ def menu_membro(biblioteca, membro):
         elif escolha == '4':
             #Lista os ebooks disponíveis e fornece o link de acesso.
             print("\n--- 📖 Ebooks cadastrados ---")
-            ebooks = [i for i in biblioteca.item if isinstance(i, Ebook)]
+            ebooks = [i for i in biblioteca.acervo.itens if isinstance(i, Ebook)]
             if not ebooks:
                 print("Nenhum ebook cadastrado atualmente.\n")
             else:
@@ -467,7 +467,7 @@ def menu_membro(biblioteca, membro):
                     print("-" * 25)
                 titulo = input("Digite o título do eBook que deseja acessar: ")
                 ebook_encontrado = next(
-                    (i for i in ebooks if biblioteca._normalizar(i.titulo) == biblioteca._normalizar(titulo)),
+                    (i for i in ebooks if biblioteca.acervo.normalizar(i.titulo) == biblioteca.acervo.normalizar(titulo)),
                     None
                 )
                 if ebook_encontrado:

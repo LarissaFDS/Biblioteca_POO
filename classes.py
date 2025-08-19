@@ -68,7 +68,7 @@ class Item(ABC):
 
 #------------------ SUBCLASSES ------------------
 class Livro(Item):
-    def __init__(self, titulo, autor, editora, genero, total_exemplares, isbn=None) -> None:
+    def __init__(self, titulo: str, autor: str, editora: str, genero: str, total_exemplares: int, isbn=None) -> None:
         super().__init__(titulo, autor, editora, genero, total_exemplares)
         self._isbn = isbn
 
@@ -87,7 +87,7 @@ class Livro(Item):
 
 
 class Revista(Item):
-    def __init__(self, titulo, autor, editora, genero, total_exemplares, edicao=None) -> None:
+    def __init__(self, titulo: str, autor: str, editora: str, genero: str, total_exemplares: int, edicao=None) -> None:
         super().__init__(titulo, autor, editora, genero, total_exemplares)
         self._edicao = edicao
 
@@ -106,7 +106,7 @@ class Revista(Item):
 
 
 class Ebook(Item):
-    def __init__(self, titulo, autor, editora, genero, total_exemplares, formato, link_download) -> None:
+    def __init__(self, titulo: str, autor: str, editora: str, genero: str, total_exemplares: int, formato: str, link_download: str) -> None:
         super().__init__(titulo, autor, editora, genero, total_exemplares)
         self._formato = formato
         self._link_download = link_download
@@ -124,7 +124,7 @@ class Ebook(Item):
         pass
     
     @property 
-    def link_download(self):
+    def link_download(self) -> str:
         return self._link_download
 
     def __str__(self) -> str:
@@ -145,25 +145,25 @@ class Membro:
         self.email = email #Utiliza o setter para validação
 
     @property
-    def nome(self):
+    def nome(self) -> str:
         return self._nome
 
     @property
-    def endereco(self):
+    def endereco(self) -> str:
         return self._endereco
 
     @property
-    def email(self):
+    def email(self) -> str:
         return self._email 
     
     @email.setter
-    def email(self, novo_email: str):
+    def email(self, novo_email: str) -> None:
         #Define o email do membro, com validação de formato.
         if not novo_email.endswith("@email.com"):
             raise ValueError("O email deve terminar com @email.com")
         self._email = novo_email
         
-    def __str__(self):
+    def __str__(self) -> str:
         return (
             f"  👤 Membro: {self._nome}\n"
             f"   - Endereço: {self._endereco}\n"
@@ -203,7 +203,7 @@ class Emprestimo:
 
 
 class Evento:
-    def __init__(self, nome, descricao, data, local) -> None:
+    def __init__(self, nome: str, descricao: str, data, local: str) -> None:
         self._nome = nome
         self._descricao = descricao
         self.data = data #Utiliza o setter para validação

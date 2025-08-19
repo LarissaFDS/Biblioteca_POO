@@ -1,7 +1,7 @@
 import sys
 from biblioteca import Biblioteca
 from menu import menu_principal
-from arcevo_padrao import *
+from acervo_padrao import *
 
 if __name__ == "__main__":
     biblioteca = Biblioteca()
