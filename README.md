@@ -43,15 +43,15 @@
     * **devolver():** Incrementa o número de exemplares disponíveis.
 
 ### Subclasses de Item
-    Livro: Herda de Item.
+    📖 Livro: Herda de Item.
 * **Atributos Adicionais:**
     * **isbn:** Código ISBN do livro (opcional).
 
-    Revista: Herda de Item.
+    📰 Revista: Herda de Item.
 * **Atributos Adicionais:**
     * **edicao:** Número ou nome da edição da revista (opcional).
 
-    Ebook: Herda de Item.
+    💻 Ebook: Herda de Item.
 * **Atributos Adicionais:**
     * **formato:** Formato do arquivo digital (ex: PDF, EPUB).
     * **link_download:** Link para acessar o e-book.

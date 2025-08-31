@@ -13,12 +13,10 @@ class GerenciadorAcervo:
         self._item = []
     
     #Remove acentos e converte o texto para minúsculas para facilitar comparações.
-    def _normalizar(self, texto: str) -> str:
+    @staticmethod
+    def normalizar(texto: str) -> str:
         return ''.join(c for c in unicodedata.normalize('NFD', texto)
                        if unicodedata.category(c) != 'Mn').lower()
-    @property
-    def normalizar(self):
-        return self._normalizar
     
     @property
     def itens(self) -> list:
@@ -44,21 +42,21 @@ class GerenciadorAcervo:
 
     def buscar_item(self, criterio: str, valor_busca: str) -> list:
         resultados = []
-        valor_busca_lower = self._normalizar(valor_busca)
+        valor_busca_lower = GerenciadorAcervo.normalizar(valor_busca)
         #Itera sobre os itens e adiciona aos resultados se corresponderem ao critério.
         for item in self._item:
-            if criterio == 'titulo' and valor_busca_lower in self._normalizar(item.titulo):
+            if criterio == 'titulo' and valor_busca_lower in GerenciadorAcervo.normalizar(item.titulo):
                 resultados.append(item)
-            elif criterio == 'autor' and valor_busca_lower in self._normalizar(item.autor):
+            elif criterio == 'autor' and valor_busca_lower in GerenciadorAcervo.normalizar(item.autor):
                 resultados.append(item)
-            elif criterio == 'editora' and valor_busca_lower in self._normalizar(item.editora):
+            elif criterio == 'editora' and valor_busca_lower in GerenciadorAcervo.normalizar(item.editora):
                 resultados.append(item)
-            elif criterio == 'genero' and valor_busca_lower in self._normalizar(item.genero):
+            elif criterio == 'genero' and valor_busca_lower in GerenciadorAcervo.normalizar(item.genero):
                 resultados.append(item) 
         return resultados
     
     def buscar_por_titulo_normalizado(self, titulo_normalizado: str) -> object | None:
-        return next((i for i in self._item if self._normalizar(i.titulo) == titulo_normalizado), None)
+        return next((i for i in self._item if GerenciadorAcervo.normalizar(i.titulo) == titulo_normalizado), None)
 
 
 class GerenciadorMembros:
@@ -87,10 +85,6 @@ class GerenciadorEventos:
     def __init__(self) -> None:
         self._eventos = []
 
-    def _normalizar(self, texto: str) -> str:
-        return ''.join(c for c in unicodedata.normalize('NFD', texto)
-                       if unicodedata.category(c) != 'Mn').lower()
-
     @property
     def eventos(self) -> list:
         return list(self._eventos)
@@ -104,8 +98,8 @@ class GerenciadorEventos:
             return False, f"Ocorreu um erro ao agendar o evento: {e}", None
     
     def cancelar_evento(self, nome_evento: str) -> tuple:
-        nome_normalizado = self._normalizar(nome_evento)
-        evento = next((e for e in self._eventos if self._normalizar(e.nome) == nome_normalizado), None)
+        nome_normalizado = GerenciadorAcervo.normalizar(nome_evento)
+        evento = next((e for e in self._eventos if GerenciadorAcervo.normalizar(e.nome) == nome_normalizado), None)
         
         if evento:
             self._eventos.remove(evento)
@@ -138,10 +132,7 @@ class GerenciadorOperacoes:
     @property
     def historico_emprestimo(self) -> list: 
         return list(self._historico_emprestimo)
-
-    def _normalizar(self, texto: str) -> str:
-        return self.acervo._normalizar(texto)
-
+    
     def listar_emprestimos_do_membro(self, membro: Membro) -> list:
         return [e for e in self._emprestimos if e.membro.email == membro.email]
 
@@ -158,7 +149,7 @@ class GerenciadorOperacoes:
             return False, f"❗️ {membro.nome} possui multas pendentes.", None
         
         #Localiza o item no acervo pelo título.
-        titulo_normalizado = self._normalizar(titulo)
+        titulo_normalizado = GerenciadorAcervo.normalizar(titulo)
         item = self.acervo.buscar_por_titulo_normalizado(titulo_normalizado)
         if not item:
             return False, f"❗️ Item '{titulo}' não cadastrado no acervo.", None
@@ -169,7 +160,7 @@ class GerenciadorOperacoes:
             return False, f"❗️ {membro.nome} atingiu o limite de {MAXIMO_EMPRESTIMO_MEMBRO} empréstimos.", None
         
         #Impede que o membro pegue o mesmo título mais de uma vez.
-        if any(self._normalizar(e.livro.titulo) == titulo_normalizado for e in emprestimos_membro):
+        if any(GerenciadorAcervo.normalizar(e.livro.titulo) == titulo_normalizado for e in emprestimos_membro):
             return False, f"❗️ {membro.nome} já possui um exemplar de '{titulo}'.", None
 
         #Se o item não estiver disponível, cria uma reserva.
@@ -200,8 +191,8 @@ class GerenciadorOperacoes:
             return False, f"❗️ {membro.nome} possui multas pendentes."
 
         #Encontra o empréstimo a ser devolvido.
-        titulo_normalizado = self._normalizar(titulo)
-        emprestimo = next((e for e in self._emprestimos if e.membro.email == email and self._normalizar(e.livro.titulo) == titulo_normalizado), None)
+        titulo_normalizado = GerenciadorAcervo.normalizar(titulo)
+        emprestimo = next((e for e in self._emprestimos if e.membro.email == email and GerenciadorAcervo.normalizar(e.livro.titulo) == titulo_normalizado), None)
 
         if not emprestimo:
             return False, f"❗️ Empréstimo de '{titulo}' para {membro.nome} não encontrado."
@@ -212,7 +203,7 @@ class GerenciadorOperacoes:
         
         #Verifica se há reservas para o item devolvido e atende a primeira da fila.
         for reserva in self._reservas[:]:
-            if self._normalizar(reserva.livro.titulo) == titulo_normalizado:
+            if GerenciadorAcervo.normalizar(reserva.livro.titulo) == titulo_normalizado:
                 print(f"\n🔔 Notificação: O livro '{reserva.livro.titulo}' ficou disponível e foi emprestado para {reserva.membro.nome}.")
                 self._reservas.remove(reserva)
                 self.realizar_emprestimo(reserva.membro.email, reserva.livro.titulo, data_atual)
@@ -278,6 +269,8 @@ class Biblioteca:
         return mensagens
 
     # --- MÉTODOS DELEGADOS AOS GERENCIADORES ---
+    def normalizar(self, texto: str):
+        return self.acervo.normalizar(texto)
     def cadastrar_item(self, *args, **kwargs) -> tuple:
         return self.acervo.cadastrar_item(*args, **kwargs)
 
@@ -321,7 +314,7 @@ class Biblioteca:
         return self.operacoes.multas
     
     def listar_emprestimos_do_membro(self, membro: Membro) -> list:
-        return self.operacoes.listar_emprestimos_do_membro
+        return self.operacoes.listar_emprestimos_do_membro(membro)
 
     def listar_multas_do_membro(self, membro: Membro) -> list:
         return self.operacoes.listar_multas_do_membro(membro)
