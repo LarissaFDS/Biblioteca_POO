@@ -89,7 +89,7 @@ class GerenciadorEventos:
     def eventos(self) -> list:
         return list(self._eventos)
 
-    def agendar_evento(self, nome: str, descricao: str, data, local: str) -> tuple:
+    def agendar_evento(self, nome: str, descricao: str, data: str, local: str) -> tuple:
         try:
             novo_evento = Evento(nome, descricao, data, local)
             self._eventos.append(novo_evento)

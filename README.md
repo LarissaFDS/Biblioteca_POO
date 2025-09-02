@@ -1,109 +1,130 @@
-# Biblioteca_POO
+# 📚 Biblioteca_POO  
 
-## Library Management System
-* Catalog Search: Users can search the library catalog by title, author, genre, etc;
-* Borrow and Return: Users can check out and return books;
-* Reservation System: Users can reserve books that are currently on loan;
-* Overdue Notifications: Automated notifications for overdue items;
-* Member Management: Registration and management of library members;
-* Fine Calculation and Payment: Calculation and payment of overdue fines;
-* Inventory Management: Tracking and management of library inventory;
-* Event Management: Scheduling and promoting library events;
-* E-books and Online Resources: Access to digital resources and e-books;
-* Reporting and Analytics: Generating reports on library usage and trends.
-                         
-## Português    
-* Busca no Catálogo: Os usuários podem pesquisar o catálogo da biblioteca por título, autor, gênero, etc.    
-* Empréstimo e Devolução: Os usuários podem retirar e devolver livros.                                       
-* Sistema de Reserva: Os usuários podem reservar livros que estão atualmente emprestados.                    
-* Notificações de Atraso: Notificações automáticas para itens em atraso.                                  
-* Gerenciamento de Membros: Cadastro e gerenciamento dos membros da biblioteca.                             
-* Cálculo e Pagamento de Multas: Cálculo e pagamento de multas por atraso.                                  
-* Gerenciamento de Acervo: Acompanhamento e gerenciamento do acervo da biblioteca.                         
-* Gerenciamento de Eventos: Agendamento e divulgação de eventos da biblioteca.                               
-* E-books e Recursos Online: Acesso a recursos digitais e e-books.
-* Relatórios e Análises: Geração de relatórios sobre o uso e as tendências da biblioteca.
+Um sistema de **gerenciamento de biblioteca** desenvolvido em Python, aplicando conceitos de **Programação Orientada a Objetos (POO)** como encapsulamento, herança, polimorfismo e abstração.  
 
+---
 
-# Classes
-## Item (Classe Abstrata)
-    Classe base para todos os itens do acervo da biblioteca.
+## 🚀 Funcionalidades
 
-* **Atributos:**
-    * **titulo:** Título do item.
-    * **autor:** Autor do item.
-    * **editora:** Editora responsável pela publicação.
-    * **genero:** Gênero do item.
-    * **total_exemplares:** Quantidade total de cópias do item.
-    * **exemplares_disponiveis:** Quantidade de cópias atualmente disponíveis para empréstimo.
+### English
+- 🔎 **Catalog Search**: Search library catalog by title, author, publisher, or genre.  
+- 📖 **Borrow and Return**: Users can borrow and return items.  
+- 📌 **Reservation System**: Reserve items currently on loan.  
+- ⏰ **Overdue Notifications**: Automated late item alerts.  
+- 👤 **Member Management**: Register and manage library members.  
+- 💰 **Fine System**: Calculate and pay overdue fines.  
+- 📦 **Inventory Management**: Track and manage library collection.  
+- 🎉 **Event Management**: Schedule and promote library events.  
+- 💻 **E-books Support**: Access to digital resources and e-books.  
+- 📊 **Reports & Analytics**: Generate usage statistics and trends.  
 
-* **Métodos:**
-    * **verificar_disponibilidade():** Retorna True se houver exemplares disponíveis.
-    * **emprestar():** Decrementa o número de exemplares disponíveis se o item estiver disponível.
-    * **devolver():** Incrementa o número de exemplares disponíveis.
+### Português
+- 🔎 **Busca no Catálogo**: Pesquisa por título, autor, editora ou gênero.  
+- 📖 **Empréstimo e Devolução**: Retirada e devolução de itens.  
+- 📌 **Sistema de Reserva**: Reserva de livros já emprestados.  
+- ⏰ **Notificações de Atraso**: Alertas automáticos de atraso.  
+- 👤 **Gerenciamento de Membros**: Cadastro e administração de usuários.  
+- 💰 **Multas**: Cálculo e pagamento de multas por atraso.  
+- 📦 **Gerenciamento de Acervo**: Controle do inventário.  
+- 🎉 **Eventos**: Agendamento e divulgação de eventos da biblioteca.  
+- 💻 **E-books**: Acesso a recursos digitais.  
+- 📊 **Relatórios e Análises**: Estatísticas de uso da biblioteca.  
 
-### Subclasses de Item
-    📖 Livro: Herda de Item.
-* **Atributos Adicionais:**
-    * **isbn:** Código ISBN do livro (opcional).
+---
 
-    📰 Revista: Herda de Item.
-* **Atributos Adicionais:**
-    * **edicao:** Número ou nome da edição da revista (opcional).
+## ⚙️ Como Executar
 
-    💻 Ebook: Herda de Item.
-* **Atributos Adicionais:**
-    * **formato:** Formato do arquivo digital (ex: PDF, EPUB).
-    * **link_download:** Link para acessar o e-book.
+1. Clone este repositório:  
+   ```bash
+   git clone https://github.com/SEU_USUARIO/Biblioteca_POO.git
+   cd Biblioteca_POO
+   ```
+2. (Opcional) Crie um ambiente virtual e ative-o:
+    ```bash
+    python -m venv venv
+    source venv/bin/activate   # Linux/Mac
+    venv\Scripts\activate      # Windows
+    ```
+3. Execute o programa principal:
+    ```bash
+    python main.py
+    ```
+### Acesso de administrador
+* Use o menu interativo para navegar no sistema.
+* Para acessar as funcionalidades administrativas, utilize a senha: `admin123`
 
-Observação: Métodos como emprestar() e verificar_disponibilidade() são sobrescritos para refletir a natureza digital do item (sempre disponível).
+## **🏗️ Estrutura das Classes**
+* **🔹 Item (Classe Abstrata)**
+    Classe base para todos os itens do acervo. Define atributos comuns e métodos obrigatórios (__str__, info_basica).
 
-## Membro
+    * **Subclasses:**
+
+        * 📖 Livro → atributo extra: ISBN.
+        * 📰 Revista → atributo extra: edição.
+        * 💻 Ebook → atributos extras: formato e link de download.
+           * Sobrescreve métodos para refletir disponibilidade digital.
+
+* **🔹 Membro**
     Representa um usuário da biblioteca.
+    Validação de email (@email.com).
 
-* **Atributos:**
-    * **nome:** Nome completo do membro.
-    * **endereco:** Endereço do membro.
-    * **email:** E-mail de contato do membro (deve terminar com @email.com).
+* **🔹 Emprestimo**
+    Relação entre item emprestado e membro.
 
-## Emprestimo
-    Registra o empréstimo de um item para um membro.
+* **🔹 Evento**
+    Representa eventos organizados pela biblioteca.
 
-* **Atributos:**
-    * **livro:** O item que foi emprestado.
-    * **membro:** O membro que realizou o empréstimo.
-    * **data_emprestimo:** Data em que o empréstimo foi realizado.
-    * **data_devolucao_prevista:** Data limite para a devolução do item.
+* **🔹 Reserva**
+    Gerencia reservas de itens com status: pendente, confirmada, cancelada.
 
-## Evento
-    Representa um evento organizado pela biblioteca.
+* **🔹 Multa**
+    Controla multas por atraso, com métodos para cálculo e pagamento.
 
-* **Atributos:**
-    * **nome:** Nome do evento.
-    * **descricao:** Breve descrição sobre o evento.
-    * **data:** Data do evento (formato dd/mm/yyyy).
-    * **local:** Local onde o evento ocorrerá.
+## 📂 Organização do Projeto
+    ```bash
+    Biblioteca_POO/
+    ├── main.py          # Ponto de entrada do sistema
+    ├── menu.py          # Menus interativos
+    ├── biblioteca.py    # Classe principal Biblioteca + gerenciadores
+    ├── classes.py       # Classes de domínio (Item, Livro, Membro, etc.)
+    ├── acervo_padrao.py # Dados de exemplo
+    └── README.md
+    ```
+## 🖥️ Demonstração de uso
 
-## Reserva
-    Gerencia a reserva de um item por um membro.
+**Menu principal:**
 
-* **Atributos:**
-    * **livro:** O item que foi reservado.
-    * **membro:** O membro que realizou a reserva.
-    * **data_reserva:** Data em que a reserva foi feita.
-    * **status:** Situação da reserva ("pendente", "confirmada", "cancelada").
+---- Sistema de gerenciamento da biblioteca ----
 
-* **Métodos:**
-    * **confirmar_reserva():** Altera o status da reserva para "confirmada".
-    * **cancelar_reserva():** Altera o status da reserva para "cancelada".
+1. Entrar como administrador  
+2. Entrar como membro  
+3. Cadastrar novo membro  
+4. Sair do sistema  
+Escolha uma opção:
 
-## Multa
-    Controla as multas geradas por empréstimos atrasados.
+**Menu do administrador:**
 
-* **Atributos:**
-    * **emprestimo_atrasado:** O objeto Emprestimo que originou a multa.
-    * **valor:** O valor monetário da multa.
-    * **pago:** Status booleano que indica se a multa foi paga.
+--- 👑 Menu do administrador ---  
+Data atual do sistema: 06/08/2025
 
-* **Métodos:**
-    * **pagar():** Marca a multa como paga.
+1. Gerenciar acervo  
+2. Gerenciar membros  
+3. Gerenciar eventos  
+4. Avançar o tempo no sistema  
+5. Gerar relatório de uso  
+6. Logout  
+Escolha uma opção:
+
+--- 🤗 Menu do membro: Fulano Silva ---
+Data atual do sistema: 01/09/2025
+1. Buscar item no acervo
+2. Meus empréstimos e devoluções
+3. Minhas multas pendentes
+4. Acessar eBook
+5. Ver eventos
+6. Logout
+Escolha uma opção: 
+
+## 📜 Licença
+    Este projeto é de uso educacional e pode ser adaptado livremente.
+---

@@ -172,7 +172,7 @@ class Membro:
 
 
 class Emprestimo:
-    def __init__(self, livro, membro, data_emprestimo, data_devolucao_prevista) -> None:
+    def __init__(self, livro: Livro, membro: Membro, data_emprestimo: datetime, data_devolucao_prevista: datetime) -> None:
         self._livro = livro
         self._membro = membro
         self._data_emprestimo = data_emprestimo
@@ -203,7 +203,7 @@ class Emprestimo:
 
 
 class Evento:
-    def __init__(self, nome: str, descricao: str, data, local: str) -> None:
+    def __init__(self, nome: str, descricao: str, data: str, local: str) -> None:
         self._nome = nome
         self._descricao = descricao
         self.data = data #Utiliza o setter para validação
@@ -236,7 +236,7 @@ class Evento:
 
 
 class Reserva:
-    def __init__(self, livro, membro, data_reserva) -> None:
+    def __init__(self, livro: Livro, membro: Membro, data_reserva: datetime) -> None: 
         self._livro = livro
         self._membro = membro
         self._data_reserva = data_reserva
