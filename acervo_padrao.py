@@ -38,8 +38,8 @@ item_padrao = [
     ("ebook", "O Ódio que Você Semeia", "Angie Thomas", "Galera Record", "Jovem Adulto", 100, "PDF", "https://zlibrary.com.br/the-hate-u-give-special-collectors-edition/#PDF"),
 ]
 
-
-livros_padrao = [
+# Não uso mais, mas caso queira adicionar uma classe para quadrinhos ou colocar mais livros, já tenho alguns aqui
+'''livros_padrao = [
     ("Python Fluente", "Luciano Ramalho", "O'Reilly", "Programação", 5),
     ("Aprenda Computação com Python", "Charles Severance", "Novatec", "Programação", 4),
     ("Estruturas de Dados e Algoritmos com Python", "Michael T. Goodrich", "Bookman", "Programação", 3),
@@ -61,7 +61,7 @@ livros_padrao = [
     ("Turma da Mônica: Lições", "Vitor e Lu Cafaggi", "Panini Comics", "Infantil", 4),
     ("Asterix: O Gaulês", "René Goscinny e Albert Uderzo", "Editora Record", "Aventura", 5),
 ]
-
+'''
 
 eventos_padrao = [
     ("Clube do Livro: Dom Casmurro", "Discussão sobre o clássico de Machado de Assis.", "15/08/2025", "Sala de Leitura"),
