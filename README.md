@@ -36,7 +36,7 @@ Um sistema de **gerenciamento de biblioteca** desenvolvido em Python, aplicando 
 
 1. Clone este repositório:  
    ```bash
-   git clone https://github.com/SEU_USUARIO/Biblioteca_POO.git
+   git clone https://github.com/LarissaFDS/Biblioteca_POO.git
    cd Biblioteca_POO
    ```
 2. (Opcional) Crie um ambiente virtual e ative-o:
@@ -54,8 +54,8 @@ Um sistema de **gerenciamento de biblioteca** desenvolvido em Python, aplicando 
 * Para acessar as funcionalidades administrativas, utilize a senha: `admin123`
 
 ## **🏗️ Estrutura das Classes**
-* **🔹 Item (Classe Abstrata)**
-    Classe base para todos os itens do acervo. Define atributos comuns e métodos obrigatórios (__str__, info_basica).
+* **Item (Classe Abstrata)**
+    * Classe base para todos os itens do acervo. Define atributos comuns e métodos obrigatórios (__str__, info_basica).
 
     * **Subclasses:**
 
@@ -64,24 +64,23 @@ Um sistema de **gerenciamento de biblioteca** desenvolvido em Python, aplicando 
         * 💻 Ebook → atributos extras: formato e link de download.
            * Sobrescreve métodos para refletir disponibilidade digital.
 
-* **🔹 Membro**
-    Representa um usuário da biblioteca.
-    Validação de email (@email.com).
+* **Membro**
+    * Representa um usuário da biblioteca.
+    * Validação de email (@email.com).
 
-* **🔹 Emprestimo**
-    Relação entre item emprestado e membro.
+* **Emprestimo**
+    * Relação entre item emprestado e membro.
 
-* **🔹 Evento**
-    Representa eventos organizados pela biblioteca.
+* **Evento**
+    * Representa eventos organizados pela biblioteca.
 
-* **🔹 Reserva**
-    Gerencia reservas de itens com status: pendente, confirmada, cancelada.
+* **Reserva**
+    * Gerencia reservas de itens com status: pendente, confirmada, cancelada.
 
-* **🔹 Multa**
-    Controla multas por atraso, com métodos para cálculo e pagamento.
+* **Multa**
+    * Controla multas por atraso, com métodos para cálculo e pagamento.
 
 ## 📂 Organização do Projeto
-    ```bash
     Biblioteca_POO/
     ├── main.py          # Ponto de entrada do sistema
     ├── menu.py          # Menus interativos
@@ -89,7 +88,7 @@ Um sistema de **gerenciamento de biblioteca** desenvolvido em Python, aplicando 
     ├── classes.py       # Classes de domínio (Item, Livro, Membro, etc.)
     ├── acervo_padrao.py # Dados de exemplo
     └── README.md
-    ```
+    
 ## 🖥️ Demonstração de uso
 
 **Menu principal:**
@@ -115,8 +114,9 @@ Data atual do sistema: 06/08/2025
 6. Logout  
 Escolha uma opção:
 
---- 🤗 Menu do membro: Fulano Silva ---
-Data atual do sistema: 01/09/2025
+--- 🤗 Menu do membro: Fulano Silva ---  
+Data atual do sistema: 06/08/2025
+
 1. Buscar item no acervo
 2. Meus empréstimos e devoluções
 3. Minhas multas pendentes
